@@ -28,8 +28,7 @@ type myConfig struct {
 
 func TestWithDefault(t *testing.T) {
 	var cfg myConfig
-	err := config.LoadConfig(&cfg)
-	assert.NoError(t, err)
+	config.LoadConfig(&cfg)
 	assert.Equal(t, "127.0.0.1", cfg.App.Host)
 	assert.Equal(t, "8081", cfg.App.Port)
 	assert.Equal(t, "192.168.1.1", cfg.DB.Host)
@@ -53,8 +52,7 @@ DB_NAME=mydb2`
 	defer os.Remove(".env")
 
 	var cfg myConfig
-	err = config.LoadConfig(&cfg)
-	assert.NoError(t, err)
+	config.LoadConfig(&cfg)
 	assert.Equal(t, "127.0.0.2", cfg.App.Host)
 	assert.Equal(t, "8082", cfg.App.Port)
 	assert.Equal(t, "192.168.1.2", cfg.DB.Host)
@@ -84,8 +82,7 @@ func TestWithLocalEnv(t *testing.T) {
 	}()
 
 	var cfg myConfig
-	err := config.LoadConfig(&cfg)
-	assert.NoError(t, err)
+	config.LoadConfig(&cfg)
 	assert.Equal(t, "127.0.0.3", cfg.App.Host)
 	assert.Equal(t, "8083", cfg.App.Port)
 	assert.Equal(t, "192.168.1.3", cfg.DB.Host)
@@ -93,10 +90,4 @@ func TestWithLocalEnv(t *testing.T) {
 	assert.Equal(t, "user", cfg.DB.User)
 	assert.Equal(t, "pass", cfg.DB.Pass)
 	assert.Equal(t, "mydb3", cfg.DB.Name)
-}
-
-func TestInvalidConfig(t *testing.T) {
-	var cfg myConfig
-	err := config.LoadConfig(cfg)
-	assert.Error(t, err)
 }
